@@ -1,4 +1,7 @@
-# Chat App
+
+=======
+# Chat-App
+
 
 # Install
 
@@ -23,5 +26,5 @@ npm i nodemon
 npm run dev 
 
 
-
+# Create a database in mongodb Atlas "chat-app"
  
