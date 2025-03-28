@@ -1,3 +1,7 @@
+# Chat App
+
+# Install
+
 npm init -y
 
 npm i express cors mongoose jsonwebtoken cookie-parser dotenv bcryptjs
