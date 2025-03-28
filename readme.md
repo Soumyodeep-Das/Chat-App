@@ -23,8 +23,14 @@ npm i express cors mongoose jsonwebtoken cookie-parser dotenv bcryptjs
 
 npm i nodemon
 
+cd server
+
 npm run dev 
 
 
 # Create a database in mongodb Atlas "chat-app"
  
+npx create-react-app client
+
+cd client
+
