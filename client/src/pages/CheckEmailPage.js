@@ -25,7 +25,9 @@ const CheckEmailPage = () => {
 
       if (response.data.success) {
         setData({ email: "" });
-        navigate("/password");
+        navigate("/password",{
+          state : response?.data?.data //pass the user data
+      });
       } else {
         toast.error(response.data.message);
       }
