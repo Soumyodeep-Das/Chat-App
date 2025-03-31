@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import uploadFile from "../helper/uploadFile"; // Utility function to upload files
 import { Link , useNavigate } from "react-router-dom";
@@ -97,7 +97,10 @@ const RegisterPage = () => {
       style={{
         backgroundImage: "url('https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=')",
         backgroundSize: "cover",
-        backgroundPosition: "center"
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        height: "100vh"
       }}>
       <div className="bg-white w-100 "
         style={{ maxWidth: "400px", borderRadius: "10px", padding: "20px", margin: "20px", boxShadow: "0px 0px 10px rgba(0,0,0,0.1)" }}>
