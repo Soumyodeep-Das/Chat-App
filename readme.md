@@ -34,3 +34,8 @@ npx create-react-app client
 
 cd client
 
+
+
+npm i axios
+
+npm i react-hot-toast
