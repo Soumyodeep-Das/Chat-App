@@ -3,7 +3,7 @@
 # Chat-App
 
 
-# Install
+# Install all credential
 
 npm init -y
 
@@ -40,3 +40,5 @@ cd client
 npm i axios
 
 npm i react-hot-toast
+
+npm install @reduxjs/toolkit react-redux

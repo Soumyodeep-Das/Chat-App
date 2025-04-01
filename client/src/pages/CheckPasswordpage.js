@@ -8,6 +8,56 @@ import { useLocation } from "react-router-dom"; // Import useLocation
 
 
 const CheckPasswordPage = () => {
+  
+
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
+  // const [data, setData] = useState({
+  //   userId: "", // Initially empty, will be set in useEffect
+  //   password: ""
+  // });
+
+  // // Set userId once location.state is available
+  // useEffect(() => {
+  //   if (location.state) {
+  //     setData((prev) => ({ ...prev, userId: location.state._id || "" }));
+  //   } else {
+  //     toast.error("Please enter your email first!");
+  //     navigate("/email");
+  //   }
+  // }, [location.state, navigate]); // Depend on `location.state`
+
+  // const handleOnChange = (e) => {
+  //   setData({ ...data, [e.target.name]: e.target.value });
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
+  //   const requestData = {
+  //   userId: data.userId,  //  Ensure userId is sent
+  //   password: data.password
+  // };
+  
+  //   console.log("API URL:", URL);
+  //   console.log("Request Data:", requestData); 
+
+  //   try {
+  //     const response = await axios.post(URL, requestData);
+  //     if (response.data.success) {
+  //       toast.success("Login successful!");
+  //       setData({ password: "" });
+  //       navigate("/");
+  //     } else {
+  //       toast.error(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Something went wrong!");
+  //   }
+  // };
+
   const [data, setData] = useState({ password: "" });
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the location object
@@ -35,8 +85,18 @@ const CheckPasswordPage = () => {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
     console.log("API URL:", URL); // Debugging
 
+    
+
     try {
-      const response = await axios.post(URL, data);
+      const response = await axios({
+        method: "POST",
+        url: URL,
+        data: {
+          userId : location?.state?._id, // Use the userId from location state
+          password: data.password
+        },
+        withCredentials: true
+      });
       toast.success(response.data.message || "Registration successful!");
 
       if (response.data.success) {
