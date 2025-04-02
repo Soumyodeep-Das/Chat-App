@@ -13,7 +13,7 @@ const Sidebar = () => {
   const [editUserOpen, setEditUserOpen] = useState(false); // Default state is closed
 
   return (
-    <div className="w-100 h-100">
+    <div className="h-100 d-grid bg-white" style={{ gridTemplateColumns: "48px 1fr", height: "100vh" }}>
       {/* Sidebar Container */}
       <div
         className="bg-light d-flex flex-column justify-content-between align-items-center py-3"
@@ -101,6 +101,25 @@ const Sidebar = () => {
           </button>
         </div>
       </div>
+
+      <div className="w-100">
+      {/* Header Section */}
+      <div className="d-flex align-items-center" style={{ height: "64px" }}>
+        <h2 className="fs-4 fw-bold p-4 text-dark">Message</h2> 
+      </div>
+
+      {/* Separator Line */}
+      <div className="bg-light" style={{ backgroundColor: "#e2e8f0", padding: "0.5px" }}></div>
+
+      {/* Scrollable Content Area */}
+      <div 
+        className="bg-danger overflow-hidden overflow-auto" 
+        style={{ height: "calc(100vh - 65px)" }}
+      >
+        {/* Message Content */}
+      </div>
+    </div>
+
 
       {/* Edit User Details Modal */}
       {editUserOpen && (
