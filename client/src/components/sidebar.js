@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { IoChatbubbleEllipses } from "react-icons/io5";
+import { FaUserPlus } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
+import EditUserDetails from "./EditUserDetails";
+import Avtar from "./Avtar";
+
+const Sidebar = () => {
+  const user = useSelector((state) => state?.user);
+  const [editUserOpen, setEditUserOpen] = useState(false); // Default state is closed
+
+  return (
+    <div className="w-100 h-100">
+      {/* Sidebar Container */}
+      <div
+        className="bg-light d-flex flex-column justify-content-between align-items-center py-3"
+        style={{
+          width: "48px",
+          height: "100vh",
+          borderTopRightRadius: "0.5rem",
+          borderBottomRightRadius: "0.5rem",
+          backgroundColor: "#f1f5f9", // Equivalent to slate-100 in Tailwind
+          color: "#475569", // Equivalent to slate-600
+        }}
+      >
+        <div>
+          {/* Chat Icon Link */}
+          <NavLink
+            to="/chat"
+            className={({ isActive }) =>
+              `d-flex justify-content-center align-items-center w-100 py-2 text-decoration-none ${
+                isActive ? "bg-secondary text-white" : "text-dark"
+              }`
+            }
+            style={{ cursor: "pointer", borderRadius: "0.375rem" }} // Equivalent to "rounded"
+          >
+            <IoChatbubbleEllipses size={25} />
+          </NavLink>
+
+          {/* Add User Icon */}
+          <div
+            className="d-flex justify-content-center align-items-center w-100 py-2"
+            style={{
+              cursor: "pointer",
+              borderRadius: "0.375rem",
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.backgroundColor = "#e2e8f0")
+            } // Hover effect
+            onMouseOut={(e) =>
+              (e.currentTarget.style.backgroundColor = "transparent")
+            }
+          >
+            <FaUserPlus size={25} />
+          </div>
+        </div>
+
+        {/* User Avatar & Logout */}
+        <div className="d-flex flex-column align-items-center">
+          {/* User Avatar Button */}
+          <button
+            className="mx-auto btn p-0"
+            title={user?.name}
+            onClick={() => setEditUserOpen(true)} // Open edit modal
+            style={{
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+            }}
+          >
+            <Avtar
+            width={40}
+            height={40}
+            name={user?.name}
+            imageUrl={user?.profile_pic}
+            />
+          </button>
+
+          {/* Logout Button */}
+          <button
+            title="Logout"
+            className="d-flex justify-content-center align-items-center btn p-0"
+            style={{
+              width: "48px",
+              height: "48px",
+              cursor: "pointer",
+              borderRadius: "0.375rem",
+              backgroundColor: "transparent",
+            }}
+            onMouseOver={(e) =>
+              (e.currentTarget.style.backgroundColor = "#e2e8f0")
+            } // Hover effect
+            onMouseOut={(e) =>
+              (e.currentTarget.style.backgroundColor = "transparent")
+            }
+          >
+            <BiLogOut size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Edit User Details Modal */}
+      {editUserOpen && (
+        <EditUserDetails onClose={() => setEditUserOpen(false)} user={user} />
+      )}
+    </div>
+  );
+};
+
+export default Sidebar;

@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Avtar from "../components/Avtar";
 import { useLocation } from "react-router-dom"; // Import useLocation
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { setToken } from "../redux/userSlice";
 
 
 const CheckPasswordPage = () => {
@@ -61,16 +63,17 @@ const CheckPasswordPage = () => {
   const [data, setData] = useState({ password: "" });
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the location object
+  const dispatch = useDispatch(); // Get the dispatch function
 
   console.log("Location state:", location.state); // Debugging
 
   useEffect(() => {
-    if (!location?.state?.name) {
-      
-      navigate("/email"); // Redirect to the email page if state is not present
-      toast.error("Please enter your email first!");
-    }
-  }, []); 
+  if (!location?.state?.name) {
+    navigate("/email");
+    toast.error("Please enter your email first!");
+  }
+}, [location?.state, navigate]); // Ensure this only runs when location.state changes
+
   // Check if location.state is available, if not redirect to email page
 
 
@@ -83,7 +86,7 @@ const CheckPasswordPage = () => {
     e.stopPropagation();
 
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
-    console.log("API URL:", URL); // Debugging
+    // console.log("API URL:", URL); // Debugging
 
     
 
@@ -99,7 +102,11 @@ const CheckPasswordPage = () => {
       });
       toast.success(response.data.message || "Registration successful!");
 
+     
+
       if (response.data.success) {
+        dispatch(setToken(response.data.token)); // Set the token in Redux store
+        localStorage.setItem("token", response.data.token); // Store token in localStorage
         setData({ password: "" });
         navigate("/");
       } else {
