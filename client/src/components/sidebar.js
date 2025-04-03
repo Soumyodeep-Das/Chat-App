@@ -7,10 +7,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import EditUserDetails from "./EditUserDetails";
 import Avtar from "./Avtar";
+import { FiArrowUpLeft } from "react-icons/fi";
+import SearchUser from "./SearchUser"; // Importing the SearchUser component
 
 const Sidebar = () => {
   const user = useSelector((state) => state?.user);
   const [editUserOpen, setEditUserOpen] = useState(false); // Default state is closed
+  const [allUser, setAllUser] = useState([]); // State to hold all users
+  const [openSearchUser, setOpenSearchUser] = useState(false); // State to control search user modal
 
   return (
     <div className="h-100 d-grid bg-white" style={{ gridTemplateColumns: "48px 1fr", height: "100vh" }}>
@@ -43,6 +47,7 @@ const Sidebar = () => {
           {/* Add User Icon */}
           <div
             className="d-flex justify-content-center align-items-center w-100 py-2"
+            onClick={() => setOpenSearchUser(true)} // Open search user modal
             style={{
               cursor: "pointer",
               borderRadius: "0.375rem",
@@ -113,9 +118,22 @@ const Sidebar = () => {
 
       {/* Scrollable Content Area */}
       <div 
-        className="bg-danger overflow-hidden overflow-auto" 
+        className=" overflow-hidden overflow-auto scrollbar" 
         style={{ height: "calc(100vh - 65px)" }}
       >
+        {
+          allUser.length === 0 && (
+            <div className="mt-4">
+              <div className="d-flex justify-content-center align-items-center my-4 text-secondary">
+                <FiArrowUpLeft size={50} />
+              </div>
+              <p className="fs-5 text-center text-muted">
+                Explore users to start a conversation
+              </p>
+            </div>
+          )
+
+        }
         {/* Message Content */}
       </div>
     </div>
@@ -125,6 +143,13 @@ const Sidebar = () => {
       {editUserOpen && (
         <EditUserDetails onClose={() => setEditUserOpen(false)} user={user} />
       )}
+
+      {/* Search User Modal */}
+      {
+        openSearchUser &&(
+          <SearchUser onClose={() => setOpenSearchUser(false)}/>
+        )
+      }
     </div>
   );
 };
