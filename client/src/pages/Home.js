@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, setUser } from '../redux/userSlice';
+import { logout, setUser , setOnlineUser} from '../redux/userSlice';
 import Sidebar from '../components/sidebar';
 import logo from '../assets/images/favicon/icon.png';
+import { io } from 'socket.io-client';
+
 
 const Home = () => {
   const user = useSelector((state) => state.user);
@@ -41,6 +43,25 @@ const Home = () => {
     fetchUserDetails();
   }, [dispatch, navigate]);
 
+  //** socket connection */
+  useEffect(() => {
+    const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
+      auth: {
+        token: localStorage.getItem("token"),
+      },
+    });
+
+    socketConnection.on("onlineUser", (data) => {
+      console.log("Online Users:", data);
+      dispatch(setOnlineUser(data));
+    });
+
+    return () => {
+      socketConnection.disconnect();
+    }
+  }, []);
+
+
   const basePath = location.pathname === "/";
 
   return (
@@ -65,23 +86,20 @@ const Home = () => {
 
       {/* Message Selection Prompt - Hidden on mobile screens when a message is open */}
       {basePath && (
-        <div className="d-none d-md-flex justify-content-center align-items-center flex-column gap-2 bg-light" 
-          style={{ width: "100%", height: "100%" }}>
-          <div>
-            <img 
-              src={logo}
-              alt="Logo"
-              width={100}
-            />
-          </div>
-          <h3 
-          className='text-center text-secondary'
-          style={{ fontSize: "2rem", fontWeight: "bold" }}>
-            <span className='text-primary'>Chat</span> App
-          </h3>
-          <p className="fs-5 mt-2 text-secondary">Select user to send message</p>
+      <div
+    className="d-none d-md-flex justify-content-center align-items-center flex-column gap-2 bg-light"
+    style={{ width: "100%", height: "100%" }} >
+        <div>
+          <img src={logo} alt="Logo" width={100} />
         </div>
-      )}
+
+        <h3 className="text-center text-secondary" style={{ fontSize: "2rem", fontWeight: "bold" }}>
+          <span className="text-primary">Chat</span> App
+        </h3>
+
+        <p className="fs-5 mt-2 text-secondary">Select user to send message</p>
+      </div>
+    )}
     </div>
   );
 };

@@ -42,3 +42,9 @@ npm i axios
 npm i react-hot-toast
 
 npm install @reduxjs/toolkit react-redux
+
+npm i socket.io-client
+
+cd server
+
+npm i socket.io

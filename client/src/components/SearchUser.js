@@ -108,11 +108,21 @@ const SearchUser = ({onClose}) => {
           </div>
         </div>
       </div>
-      <div class="position-absolute top-0 end-0 text-primary p-2 fs-4 lg:fs-2 hover-text-white " onClick={onClose}>
-            <button>
-              <IoClose  style={{cursor:"pointer"}}/>
-            </button>
-      </div>
+      <div
+      className="position-absolute top-0 end-0 p-4 fs-4"
+      onClick={onClose}
+      style={{
+        color: '#0d6efd', // Bootstrap primary color
+        cursor: 'pointer',
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = 'white')}
+      onMouseLeave={(e) => (e.currentTarget.style.color = '#0d6efd')}
+    >
+      <button className="btn p-0 border-0 bg-transparent">
+        <IoClose size={25} />
+      </button>
+    </div>
+
     </div>
   );
 };
