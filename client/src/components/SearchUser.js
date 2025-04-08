@@ -41,7 +41,7 @@ const SearchUser = ({onClose}) => {
 
   return (
     <div
-      className="position-fixed top-0 bottom-0 start-0 end-0 p-2" style={{ zIndex: 2 ,
+      className="position-fixed top-0 bottom-0 start-0 end-0 p-2" style={{ zIndex: 70 ,
         background: `linear-gradient(rgba(240, 240, 240, 0.8), rgba(240, 240, 240, 0.8)), 
         url('/mnt/data/image.png') center/cover no-repeat`,
       }}
