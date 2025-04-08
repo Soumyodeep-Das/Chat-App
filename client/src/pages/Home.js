@@ -70,11 +70,11 @@ const Home = () => {
     <div className="d-flex h-100 vh-100 bg-white">
       {/* Sidebar - Always visible on '/' route, hidden on small screens when navigating */}
       {basePath ? (
-        <section className="d-block w-25">
+        <section className="d-block w-50">
           <Sidebar />
         </section>
       ) : (
-        <section className="d-none d-md-block " style={{ width: "320px" }}>
+        <section className="d-none d-md-block " style={{ width: "400px" }}>
           <Sidebar />
         </section>
       )}

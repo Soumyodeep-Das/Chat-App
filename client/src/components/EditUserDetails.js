@@ -15,11 +15,15 @@ const EditUserDetails = ({ onClose, user }) => {
   const uploadPhotoRef = useRef();
 
   useEffect(() => {
-    setData((prev) => ({
-      ...prev,
-      ...user,
-    }));
+    if (user) {
+      setData({
+        name: user.name || "",
+        profile_pic: user.profile_pic || "",
+        _id: user._id, // if needed for backend
+      });
+    }
   }, [user]);
+
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;

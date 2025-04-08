@@ -32,14 +32,14 @@ const MessagePage = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [allMessage, setAllMessage] = useState([]);
+  
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (messagesEndRef) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-  }, [allMessage]);
+  }, [allMessages]);
 
   const handleUploadImageVideoOpen = () => {
     setOpenImageVideoUpload((prev) => !prev);
@@ -104,6 +104,8 @@ const MessagePage = () => {
   useEffect(() => {
     if (socketConnection && userId) {
       socketConnection.emit('message-page', userId);
+
+      socketConnection.emit('seen', userId);
 
       const handleMessageUser = (data) => {
         console.log("👤 message-user received:", data);
@@ -201,7 +203,7 @@ const MessagePage = () => {
 
         <div className="">
           {allMessages.map((msg, index) => {
-            const isOwnMessage = msg.msgByUserId === user._id;
+            const isOwnMessage = msg.msgByUserId?.toString() === user._id;
             return (
               <div
                 key={index}
