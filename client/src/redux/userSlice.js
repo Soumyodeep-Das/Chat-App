@@ -10,6 +10,7 @@ const initialState = {
     profile_pic: storedUser.profile_pic || "",
     token: storedToken,
     onlineUser: [],
+    socketConnection: null,
 };
 
 export const userSlice = createSlice({
@@ -34,6 +35,10 @@ export const userSlice = createSlice({
       state.email = "";
       state.profile_pic = "";
       state.token = "";
+      // state.onlineUser = [];
+      state.socketConnection = null; // Clear socket connection on logout
+      // Clear local storage on logout
+
 
       localStorage.removeItem("user");
       localStorage.removeItem("token");
@@ -41,8 +46,11 @@ export const userSlice = createSlice({
     setOnlineUser: (state, action) => {
       state.onlineUser = action.payload;
     },
+    setSocketConnection: (state, action) => {
+      state.socketConnection = action.payload; // user logout then socket connection will be null
+    },
   },
 })
 
-export const { setUser, setToken, logout , setOnlineUser} = userSlice.actions;
+export const { setUser, setToken, logout , setOnlineUser, setSocketConnection} = userSlice.actions;
 export default userSlice.reducer;

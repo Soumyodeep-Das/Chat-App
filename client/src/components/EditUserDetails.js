@@ -85,9 +85,9 @@ const EditUserDetails = ({ onClose, user }) => {
 
   return (
     <div
-      className="position-fixed top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center"
+      className="position-fixed top-0 bottom-0 start-0 end-0 bg-dark bg-opacity-50 d-flex justify-content-center align-items-center " style={{ zIndex: 10 }}
     >
-      <div className="bg-white p-3 rounded shadow-lg w-100" style={{ maxWidth: "400px" }}>
+      <div className="bg-white p-3 rounded shadow-lg w-100 m-2" style={{ maxWidth: "400px" }}>
         <h2 className="fw-semibold">Profile Details</h2>
         <p className="text-muted small">Edit user details</p>
 

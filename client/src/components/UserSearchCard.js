@@ -20,7 +20,7 @@ const UserSearchCard = ({ user ,onClose}) => {
       onMouseLeave={() => setHover(false)}
     >
       {/* Avatar */}
-      <Avatar width={50} height={50} name={user?.name}  userId={user?._id}/>
+      <Avatar width={50} height={50} name={user?.name}  userId={user?._id} imageUrl={user?.profile_pic} />
 
       {/* User Info */}
       <div className="flex-grow-1">

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, setUser , setOnlineUser} from '../redux/userSlice';
+import { logout, setUser , setOnlineUser, setSocketConnection} from '../redux/userSlice';
 import Sidebar from '../components/sidebar';
 import logo from '../assets/images/favicon/icon.png';
 import { io } from 'socket.io-client';
@@ -56,6 +56,8 @@ const Home = () => {
       dispatch(setOnlineUser(data));
     });
 
+    dispatch(setSocketConnection(socketConnection));
+
     return () => {
       socketConnection.disconnect();
     }
@@ -79,7 +81,7 @@ const Home = () => {
 
       {/* Message Component - Hidden on '/' route */}
       {!basePath && (
-        <section className="p-3 w-100">
+        <section className=" w-100">
           <Outlet />
         </section>
       )}

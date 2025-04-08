@@ -108,7 +108,15 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="w-100">
+      <div
+        className="w-100"
+        style={{
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          borderTopLeftRadius: "0.5rem",
+          borderTopRightRadius: "0.5rem",
+        }}
+      >
+
       {/* Header Section */}
       <div className="d-flex align-items-center" style={{ height: "64px" }}>
         <h2 className="fs-4 fw-bold p-4 text-dark">Message</h2> 
@@ -119,7 +127,7 @@ const Sidebar = () => {
 
       {/* Scrollable Content Area */}
       <div 
-        className=" overflow-hidden overflow-auto scrollbar" 
+        className=" overflow-hidden overflow-auto scrollbar p-2" 
         style={{ height: "calc(100vh - 65px)" }}
       >
         {
@@ -128,7 +136,7 @@ const Sidebar = () => {
               <div className="d-flex justify-content-center align-items-center my-4 text-secondary">
                 <FiArrowUpLeft size={50} />
               </div>
-              <p className="fs-5 text-center text-muted">
+              <p className="fs-5 text-center text-muted ">
                 Explore users to start a conversation
               </p>
             </div>

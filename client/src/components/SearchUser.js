@@ -41,8 +41,7 @@ const SearchUser = ({onClose}) => {
 
   return (
     <div
-      className="position-fixed top-0 bottom-0 start-0 end-0 p-2"
-      style={{
+      className="position-fixed top-0 bottom-0 start-0 end-0 p-2" style={{ zIndex: 2 ,
         background: `linear-gradient(rgba(240, 240, 240, 0.8), rgba(240, 240, 240, 0.8)), 
         url('/mnt/data/image.png') center/cover no-repeat`,
       }}
@@ -109,7 +108,7 @@ const SearchUser = ({onClose}) => {
         </div>
       </div>
       <div
-      className="position-absolute top-0 end-0 p-4 fs-4"
+      className="position-absolute top-0 end-0 p-2 fs-4"
       onClick={onClose}
       style={{
         color: '#0d6efd', // Bootstrap primary color
