@@ -137,7 +137,7 @@ const MessagePage = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           minHeight: '100vh',
-          
+          boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
         }}
       >
 
