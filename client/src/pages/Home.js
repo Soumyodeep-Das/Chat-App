@@ -1,58 +1,65 @@
-import React, { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout, setUser , setOnlineUser, setSocketConnection} from '../redux/userSlice';
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { logout, setOnlineUser, setSocketConnection, setUser } from '../redux/userSlice';
 import Sidebar from '../components/sidebar';
 import logo from '../assets/images/favicon/icon.png';
-import { io } from 'socket.io-client';
-
+import io from 'socket.io-client';
 
 const Home = () => {
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const basePath = location.pathname === '/';
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = useCallback(async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      dispatch(logout());
+      navigate('/email');
+      return;
+    }
+
     try {
       const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
-      const token = localStorage.getItem("token");
-
       const response = await axios.get(URL, {
         withCredentials: true,
-        headers: { Authorization: `Bearer ${token}` }
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       dispatch(setUser(response.data.data));
 
       if (response.data.data.logout) {
         dispatch(logout());
-        navigate("/email");
+        navigate('/email');
       }
+
     } catch (error) {
-      console.error("Error fetching user details:", error);
-      if (error.response?.status === 401) {
-        dispatch(logout());
-        navigate("/email");
-      }
+      console.log('Error fetching user:', error);
+      dispatch(logout());
+      navigate('/email');
     }
-  };
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     fetchUserDetails();
-  }, [dispatch, navigate]);
+  }, [fetchUserDetails]);
 
-  //** socket connection */
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
     const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
       auth: {
-        token: localStorage.getItem("token"),
-      },
+        token
+      }
     });
 
-    socketConnection.on("onlineUser", (data) => {
-      console.log("Online Users:", data);
+    socketConnection.on('onlineUser', (data) => {
+      console.log('Online users:', data);
       dispatch(setOnlineUser(data));
     });
 
@@ -60,14 +67,11 @@ const Home = () => {
 
     return () => {
       socketConnection.disconnect();
-    }
-  }, []);
-
-
-  const basePath = location.pathname === "/";
+    };
+  }, [dispatch]);
 
   return (
-    <div className="d-flex h-100 vh-100 bg-white">
+     <div className="d-flex h-100 vh-100 bg-white">
       {/* Sidebar - Always visible on '/' route, hidden on small screens when navigating */}
       {basePath ? (
         <section className="d-block w-50">
