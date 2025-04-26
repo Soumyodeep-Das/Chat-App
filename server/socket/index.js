@@ -24,8 +24,15 @@ const onlineUsers = new Map();
 io.on('connection', async (socket) => {
   try {
     const token = socket.handshake.auth.token;
+    if (!token) {
+      console.warn('Socket connection missing token');
+      return socket.disconnect(true);
+    }
     const user = await getUserDetailsFromToken(token);
-    if (!user?._id) return socket.disconnect(true);
+    if (!user?._id) {
+      console.warn('Socket connection invalid/expired token');
+      return socket.disconnect(true);
+    }
 
     const userId = user._id.toString();
     onlineUsers.set(userId, socket.id);
