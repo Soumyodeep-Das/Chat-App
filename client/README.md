@@ -14,6 +14,67 @@ A modern chat application client built with [Create React App](https://github.co
 - Responsive UI
 - User authentication
 
+## Folder Structure
+
+```text
+client/
+├── public/
+│   ├── favicon.ico
+│   ├── icon.png
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src/
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── assets/
+│   │   ├── Audio/
+│   │   │   └── audio1.mp3
+│   │   ├── Videos/
+│   │   │   └── video1.mp4
+│   │   └── images/
+│   │       ├── favicon/
+│   │       │   └── icon.png
+│   │       └── photo.jpg
+│   ├── components/
+│   │   ├── Avtar.js
+│   │   ├── Divider.js
+│   │   ├── EditUserDetails.js
+│   │   ├── Loading.js
+│   │   ├── MessagePage.js
+│   │   ├── SearchUser.js
+│   │   ├── UserSearchCard.js
+│   │   └── sidebar.js
+│   ├── helper/
+│   │   └── uploadFile.js
+│   ├── index.css
+│   ├── index.js
+│   ├── layout/
+│   │   └── index.js
+│   ├── logo.svg
+│   ├── pages/
+│   │   ├── CheckEmailPage.js
+│   │   ├── CheckPasswordpage.js
+│   │   ├── ForgotPassword.js
+│   │   ├── Home.js
+│   │   └── RegisterPage.js
+│   ├── redux/
+│   │   ├── store.js
+│   │   └── userSlice.js
+│   ├── reportWebVitals.js
+│   ├── routers/
+│   │   └── index.js
+│   └── setupTests.js
+├── .env
+├── .gitignore
+├── README.md
+├── package-lock.json
+└── package.json
+```
+
 ## Getting Started
 
 These instructions will help you set up and run the project locally.
