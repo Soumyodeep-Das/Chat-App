@@ -1,6 +1,7 @@
 // socketServer.js
 const express = require('express');
 const { Server } = require('socket.io');
+const anonSocketHandler = require('./anonSocket');
 const http = require('http');
 const getUserDetailsFromToken = require('../helpers/getUserDetailsFromToken');
 const UserModel = require('../models/UserModel');
@@ -22,6 +23,11 @@ const io = new Server(server, {
 const onlineUsers = new Map();
 
 io.on('connection', async (socket) => {
+  const isAnonymous = socket.handshake.query.anonymous === 'true';
+  if (isAnonymous) {
+    anonSocketHandler(io, socket);
+    return;
+  }
   try {
     const token = socket.handshake.auth.token;
     if (!token) {
