@@ -9,7 +9,11 @@
     "start": "node index.js",
     "build": "npm install"
   },
-  "keywords": ["chat", "socket.io", "realtime"],
+  "keywords": [
+    "chat",
+    "socket.io",
+    "realtime"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -20,7 +24,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.4",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
