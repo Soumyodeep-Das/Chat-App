@@ -8,11 +8,15 @@ A modern chat application client built with [Create React App](https://github.co
 - [Backend (Render)](https://chat-app-oeoa.onrender.com/)
 
 
-## Features (placeholders)
+## Features
 
 - Real-time messaging
 - Responsive UI
 - User authentication
+- **Installable PWA** (Progressive Web App)
+- Offline support for static assets
+- Modern and consistent theming
+- Custom "Install App" button on the home page
 
 ## Folder Structure
 
@@ -25,7 +29,8 @@ client/
 │   ├── logo192.png
 │   ├── logo512.png
 │   ├── manifest.json
-│   └── robots.txt
+│   ├── robots.txt
+│   └── service-worker.js
 ├── src/
 │   ├── App.css
 │   ├── App.js
@@ -56,6 +61,8 @@ client/
 │   │   └── index.js
 │   ├── logo.svg
 │   ├── pages/
+│   │   ├── AnonymousChatEntry.js
+│   │   ├── AnonymousChatRoom.js
 │   │   ├── CheckEmailPage.js
 │   │   ├── CheckPasswordpage.js
 │   │   ├── ForgotPassword.js
@@ -67,6 +74,7 @@ client/
 │   ├── reportWebVitals.js
 │   ├── routers/
 │   │   └── index.js
+│   ├── serviceWorkerRegistration.js
 │   └── setupTests.js
 ├── .env
 ├── .gitignore
@@ -100,6 +108,21 @@ npm run build
 ```
 The production-ready build will be in the `build` folder.
 
+## Progressive Web App (PWA)
+
+This app is a fully installable PWA:
+- **Install Prompt:** You can install the app from the browser (look for the install option in Chrome, Edge, or Safari).
+- **Custom Install Button:** The home page (`/email` route) displays an "Install Chat App" button when installable.
+- **Offline Support:** The app works offline for static assets and loads faster after first use.
+- **Manifest & Service Worker:** Fully configured for PWA best practices.
+
+### How to Install
+- On desktop, look for the install icon in the browser address bar.
+- On mobile, use the browser menu ("Add to Home Screen").
+- Or, use the in-app install button on the home page.
+
+For more, see [Making a Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app).
+
 ### Running Tests
 ```bash
 npm test
@@ -123,3 +146,7 @@ npm test
 - [Deployment](https://facebook.github.io/create-react-app/docs/deployment)
 - [Troubleshooting: Build Fails to Minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+---
+
+### Theming
+This app uses a consistent, modern theme with a custom background image and card-based UI for a beautiful user experience across all pages.

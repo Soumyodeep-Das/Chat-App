@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -31,27 +32,50 @@ const AnonymousChatEntry = () => {
   };
 
   return (
-    <div className="container d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-      <h2>Start Anonymous Chat</h2>
-      {!inviteLink ? (
-        <button className="btn btn-primary mt-3" onClick={handleStartAnonymous} disabled={loading}>
-          {loading ? "Generating..." : "Generate Anonymous Chat Link"}
-        </button>
-      ) : (
-        <div className="mt-4 text-center">
-          <p>Your anonymous name: <b>{anonName}</b></p>
-          <p>Share this link to chat anonymously:</p>
-          <input type="text" className="form-control mb-2" value={inviteLink} readOnly />
-          <button className="btn btn-outline-secondary" onClick={() => navigator.clipboard.writeText(inviteLink)}>
-            Copy Link
+    <div
+      className="d-flex justify-content-center align-items-center vh-90 bg-light"
+      style={{
+        backgroundImage:
+          "url('https://media.istockphoto.com/id/1403848173/vector/vector-online-chatting-pattern-online-chatting-seamless-background.jpg?s=612x612&w=0&k=20&c=W3O15mtJiNlJuIgU6S9ZlnzM_yCE27eqwTCfXGYwCSo=')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        height: "100vh",
+      }}
+    >
+      <div
+        className="bg-white w-100"
+        style={{
+          maxWidth: "400px",
+          borderRadius: "10px",
+          padding: "20px",
+          margin: "20px",
+          boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+        }}
+      >
+        <BackButton />
+        <h3 className="mb-4 text-center">Start Anonymous Chat</h3>
+        {!inviteLink ? (
+          <button className="btn btn-primary w-100 py-2 fw-bold mb-2" onClick={handleStartAnonymous} disabled={loading}>
+            {loading ? "Generating..." : "Generate Anonymous Chat Link"}
           </button>
-          <div className="mt-3">
-            <button className="btn btn-success" onClick={() => navigate(`/anon-chat/${inviteLink.split('/').pop()}`)}>
-              Go to Chat Room
+        ) : (
+          <div className="mt-4 text-center">
+            <p>Your anonymous name: <b>{anonName}</b></p>
+            <p>Share this link to chat anonymously:</p>
+            <input type="text" className="form-control mb-2" value={inviteLink} readOnly />
+            <button className="btn btn-outline-secondary w-100 fw-bold mb-2" onClick={() => navigator.clipboard.writeText(inviteLink)}>
+              Copy Link
             </button>
+            <div className="mt-3">
+              <button className="btn btn-success w-100 fw-bold" onClick={() => navigate(`/anon-chat/${inviteLink.split('/').pop()}`)}>
+                Go to Chat Room
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

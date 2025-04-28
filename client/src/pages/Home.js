@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useCallback } from 'react';
+import BackButton from "../components/BackButton";
 import { useDispatch } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { logout, setOnlineUser, setSocketConnection, setUser } from '../redux/userSlice';
@@ -85,9 +86,13 @@ const Home = () => {
 
       {/* Message Component - Hidden on '/' route */}
       {!basePath && (
-        <section className=" w-100">
-          <Outlet />
-        </section>
+        <div>
+          <Sidebar />
+          <div className="main-content">
+            {location.pathname !== '/' && <BackButton />}
+            <Outlet />
+          </div>
+        </div>
       )}
 
       {/* Message Selection Prompt - Hidden on mobile screens when a message is open */}

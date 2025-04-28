@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PiUserCircle } from "react-icons/pi";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -6,7 +6,35 @@ import { toast } from "react-hot-toast";
 
 const CheckEmailPage = () => {
   const [data, setData] = useState({ email: "" });
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstall, setShowInstall] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstall(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallClick = () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("User accepted the A2HS prompt");
+        } else {
+          console.log("User dismissed the A2HS prompt");
+        }
+        setDeferredPrompt(null);
+        setShowInstall(false);
+      });
+    }
+  };
+
 
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -67,6 +95,15 @@ const CheckEmailPage = () => {
         />
       </div>
         <h3 className="mb-4 text-center">Welcome to Chat App!</h3>
+        {showInstall && (
+          <button
+            className="btn btn-success w-100 mb-3 fw-bold"
+            style={{ fontSize: '1.1rem' }}
+            onClick={handleInstallClick}
+          >
+            Install Chat App
+          </button>
+        )}
 
         <form className="mx-2" onSubmit={handleSubmit}>
           <div className="mb-3">

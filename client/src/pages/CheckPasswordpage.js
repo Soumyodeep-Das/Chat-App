@@ -1,81 +1,25 @@
-import React, {useEffect, useState } from "react";
-// import { PiUserCircle } from "react-icons/pi";
+import React, { useEffect, useState } from "react";
+import BackButton from "../components/BackButton";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Avtar from "../components/Avtar";
-import { useLocation } from "react-router-dom"; // Import useLocation
-import { useDispatch } from "react-redux"; // Import useDispatch
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { setToken } from "../redux/userSlice";
 
-
 const CheckPasswordPage = () => {
-  
-
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  // const [data, setData] = useState({
-  //   userId: "", // Initially empty, will be set in useEffect
-  //   password: ""
-  // });
-
-  // // Set userId once location.state is available
-  // useEffect(() => {
-  //   if (location.state) {
-  //     setData((prev) => ({ ...prev, userId: location.state._id || "" }));
-  //   } else {
-  //     toast.error("Please enter your email first!");
-  //     navigate("/email");
-  //   }
-  // }, [location.state, navigate]); // Depend on `location.state`
-
-  // const handleOnChange = (e) => {
-  //   setData({ ...data, [e.target.name]: e.target.value });
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
-  //   const requestData = {
-  //   userId: data.userId,  //  Ensure userId is sent
-  //   password: data.password
-  // };
-  
-  //   console.log("API URL:", URL);
-  //   console.log("Request Data:", requestData); 
-
-  //   try {
-  //     const response = await axios.post(URL, requestData);
-  //     if (response.data.success) {
-  //       toast.success("Login successful!");
-  //       setData({ password: "" });
-  //       navigate("/");
-  //     } else {
-  //       toast.error(response.data.message);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.response?.data?.message || "Something went wrong!");
-  //   }
-  // };
-
   const [data, setData] = useState({ password: "" });
-  const navigate = useNavigate(); // Get the navigate function
-  const location = useLocation(); // Get the location object
-  const dispatch = useDispatch(); // Get the dispatch function
-
-  console.log("Location state:", location.state); // Debugging
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  if (!location?.state?.name) {
-    navigate("/email");
-    toast.error("Please enter your email first!");
-  }
-}, [location?.state, navigate]); // Ensure this only runs when location.state changes
-
-  // Check if location.state is available, if not redirect to email page
-
+    if (!location?.state?.name) {
+      navigate("/email");
+      toast.error("Please enter your email first!");
+    }
+  }, [location?.state, navigate]);
 
   const handleOnChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -86,27 +30,21 @@ const CheckPasswordPage = () => {
     e.stopPropagation();
 
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
-    // console.log("API URL:", URL); // Debugging
-
-    
-
     try {
       const response = await axios({
         method: "POST",
         url: URL,
         data: {
-          userId : location?.state?._id, // Use the userId from location state
-          password: data.password
+          userId: location?.state?._id,
+          password: data.password,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       toast.success(response.data.message || "Registration successful!");
 
-     
-
       if (response.data.success) {
-        dispatch(setToken(response.data.token)); // Set the token in Redux store
-        localStorage.setItem("token", response.data.token); // Store token in localStorage
+        dispatch(setToken(response.data.token));
+        localStorage.setItem("token", response.data.token);
         setData({ password: "" });
         navigate("/");
       } else {
@@ -130,8 +68,6 @@ const CheckPasswordPage = () => {
         height: "100vh",
       }}
     >
-      
-
       <div
         className="bg-white w-100"
         style={{
@@ -142,23 +78,19 @@ const CheckPasswordPage = () => {
           boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
         }}
       >
-        <div className="d-flex flex-column mx-auto mb-2 justify-content-center align-items-center  ">
-        {/* <PiUserCircle 
-          size={80}
-        /> */}
-        <Avtar 
-          width={70}
-          height={70}
-          name={location?.state?.name} // Use the name from location state
-          imageUrl={location?.state?.profile_pic} // Use the imageUrl from location state
-        />
-        <h2 className="fw-semibold fs-4 mt-1">{location?.state?.name || "user"}</h2>
-      </div>
-        {/* <h3 className="mb-4 text-center">Welcome to Chat App!</h3> */}
-
+        <div className="d-flex flex-column mx-auto mb-2 justify-content-center align-items-center">
+          {/* <PiUserCircle size={80} /> */}
+          <Avtar
+            width={70}
+            height={70}
+            name={location?.state?.name}
+            imageUrl={location?.state?.profile_pic}
+          />
+          <h2 className="fw-semibold fs-4 mt-1">{location?.state?.name || "user"}</h2>
+        </div>
         <form className="mx-2" onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">
+            <label htmlFor="password" className="form-label">
               Password:
             </label>
             <input
@@ -173,13 +105,10 @@ const CheckPasswordPage = () => {
               style={{ backgroundColor: "whitesmoke" }}
             />
           </div>
-
           <button className="btn btn-primary w-100 py-2 fw-bold" type="submit">
             Login
           </button>
-
           <p className="text-center mt-3">
-            
             <Link to="/forgot-password" className="text-primary text-decoration-none ms-1">
               Forgot Password?
             </Link>

@@ -7,6 +7,7 @@ import { RouterProvider } from 'react-router-dom';
 import router from './routers';
 import { Provider } from 'react-redux';
 import {store} from './redux/store';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,9 @@ root.render(
     
   </React.StrictMode>
 );
+
+// Register the service worker for PWA support
+serviceWorkerRegistration.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
