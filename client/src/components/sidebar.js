@@ -13,12 +13,17 @@ import { FaImage } from "react-icons/fa6";
 import { FaVideo } from "react-icons/fa6";
 import { logout } from '../redux/userSlice';
 
+import { useLocation } from 'react-router-dom';
+import { useSocket } from '../context/SocketContext';
+
 const Sidebar = () => {
+    const location = useLocation();
+    const basePath = location.pathname === '/';
     const user = useSelector(state => state?.user)
     const [editUserOpen,setEditUserOpen] = useState(false)
     const [allUser,setAllUser] = useState([])
     const [openSearchUser,setOpenSearchUser] = useState(false)
-    const socketConnection = useSelector(state => state?.user?.socketConnection)
+    const socketConnection = useSocket();
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -132,7 +137,7 @@ const Sidebar = () => {
 
         <div className="bg-light " style={{ height: "1px", backgroundColor: "#e2e8f0" }}></div>
 
-        <div className="overflow-auto px-3" style={{ height: "calc(100vh - 65px)", overflowX: "hidden" }}>
+        <div className={`overflow-auto px-3${!basePath ? ' sidebar-mobile-hide' : ''}`} style={{ height: "calc(100vh - 65px)", overflowX: "hidden" }}>
           {allUser.length === 0 ? (
             <div className="mt-5">
               <div className="d-flex justify-content-center align-items-center my-4 text-secondary">

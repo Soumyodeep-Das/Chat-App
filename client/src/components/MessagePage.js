@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useSocket } from '../context/SocketContext';
 import { useParams, Link } from 'react-router-dom';
 import Avatar from './Avtar';
 import { HiDotsVertical } from 'react-icons/hi';
@@ -12,7 +13,7 @@ import moment from 'moment';
 
 const MessagePage = () => {
   const { userId } = useParams();
-  const socketConnection = useSelector((state) => state?.user?.socketConnection);
+  const socketConnection = useSocket();
   const user = useSelector((state) => state?.user);
 
   const [dataUser, setDataUser] = useState({

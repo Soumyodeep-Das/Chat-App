@@ -3,7 +3,8 @@ import React, { useEffect, useCallback } from 'react';
 import BackButton from "../components/BackButton";
 import { useDispatch } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { logout, setOnlineUser, setSocketConnection, setUser } from '../redux/userSlice';
+import { logout, setOnlineUser, setUser } from '../redux/userSlice';
+import { useSocket } from '../context/SocketContext';
 import Sidebar from '../components/sidebar';
 import logo from '../assets/images/favicon/icon.png';
 import io from 'socket.io-client';
@@ -13,6 +14,7 @@ const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const basePath = location.pathname === '/';
+  const socketConnection = useSocket();
 
   const fetchUserDetails = useCallback(async () => {
     const token = localStorage.getItem('token');
@@ -53,64 +55,56 @@ const Home = () => {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    const socketConnection = io(process.env.REACT_APP_BACKEND_URL, {
-      auth: {
-        token
-      }
-    });
+    if (!socketConnection) return;
 
     socketConnection.on('onlineUser', (data) => {
       console.log('Online users:', data);
       dispatch(setOnlineUser(data));
     });
 
-    dispatch(setSocketConnection(socketConnection));
-
     return () => {
-      socketConnection.disconnect();
+      socketConnection.off('onlineUser');
     };
-  }, [dispatch]);
+  }, [dispatch, socketConnection]);
 
   return (
-     <div className="d-flex h-100 vh-100 bg-white">
-      {/* Sidebar - Always visible on '/' route, hidden on small screens when navigating */}
+    <div className="d-flex h-100 vh-100 bg-white">
+      {/* Sidebar: visible on desktop, hidden on mobile when chat is open */}
       {basePath ? (
-        <section className="d-block w-50">
+        <section className="d-block w-100 w-md-50">
           <Sidebar />
         </section>
       ) : (
-        <section className="d-none d-md-block " style={{ width: "400px" }}>
+        <section className="d-none d-md-block" style={{ width: '400px' }}>
           <Sidebar />
         </section>
       )}
 
-      {/* Message Component - Hidden on '/' route */}
-      {!basePath && (
-        <div>
-          <Sidebar />
-          <div className="main-content">
-            {location.pathname !== '/' && <BackButton />}
-            <Outlet />
+      {/* Main Content: show only chat on mobile when not on basePath */}
+      <div className={`flex-grow-1 h-100 ${!basePath ? 'w-100' : ''} d-flex flex-column`}>
+        {/* Show BackButton only when not on basePath and on mobile */}
+        {!basePath && (
+          <div className="d-block d-md-none bg-white sticky-top" style={{ zIndex: 2 }}>
+            <BackButton />
           </div>
+        )}
+        {/* Chat or Welcome Prompt */}
+        <div className="flex-grow-1 d-flex flex-column">
+          {basePath ? (
+            <div className="d-flex justify-content-center align-items-center flex-column gap-2 bg-light w-100 h-100">
+              <div>
+                <img src={logo} alt="Logo" width={100} />
+              </div>
+              <h3 className="text-center text-secondary" style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+                <span className="text-primary">Chat</span> App
+              </h3>
+              <p className="fs-5 mt-2 text-secondary">Select user to send message</p>
+            </div>
+          ) : (
+            <Outlet />
+          )}
         </div>
-      )}
-
-      {/* Message Selection Prompt - Hidden on mobile screens when a message is open */}
-      {basePath && (
-      <div
-    className="d-none d-md-flex justify-content-center align-items-center flex-column gap-2 bg-light"
-    style={{ width: "100%", height: "100%" }} >
-        <div>
-          <img src={logo} alt="Logo" width={100} />
-        </div>
-
-        <h3 className="text-center text-secondary" style={{ fontSize: "2rem", fontWeight: "bold" }}>
-          <span className="text-primary">Chat</span> App
-        </h3>
-
-        <p className="fs-5 mt-2 text-secondary">Select user to send message</p>
       </div>
-    )}
     </div>
   );
 };
